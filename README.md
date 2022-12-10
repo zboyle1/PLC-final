@@ -44,7 +44,7 @@
 <br>\<factor> --> + \<expr>|- \<expr>|* \<expr>|/ \<expr>|% \<expr>|*^ \<expr>|null
 <br>\<term> --> id|val|\<call>
 
-	<br>]
+<br>]
 ## RegEx
 <br>Identifier: ([a-z]_?){6,8}
 <br>Natural: [0-9]+
