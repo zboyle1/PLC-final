@@ -44,9 +44,9 @@
 <br>\<factor> --> + \<expr>|- \<expr>|* \<expr>|/ \<expr>|% \<expr>|*^ \<expr>|null
 <br>\<term> --> id|val|\<call>
 
-<br>]
+]
 ## RegEx
-<br>Identifier: ([a-z]_?){6,8}
+Identifier: ([a-z]_?){6,8}
 <br>Natural: [0-9]+
 <br>Real: [0-9]+\.[0-9]+
 <br>Boolean: yes|no
