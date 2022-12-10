@@ -22,7 +22,7 @@
 <br>\<call2> --> \<term>\<call2>|, \<term>\<call2>|null
 
 <br>\<forloop> --> growfor(\<var>,\<boolexpr>,\<expr>) : \<stmt> stop
-<br>\whileloop> --> grow(\<boolexpr>) : \<stmt> stop
+<br>\<whileloop> --> grow(\<boolexpr>) : \<stmt> stop
 <br>\<dowhile> --> root : \<stmt> stop grow(\<boolexpr>)
 
 <br>\<ifstmt> --> apple(\<boolexpr>) : \<stmt> \<elsestmt> eat
