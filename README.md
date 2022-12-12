@@ -7,8 +7,8 @@
 - ∑ = { 
     <br>tree, leaf, seed, twig, trunk, stick, apple,
 		<br>orange, climb, branch, growfor, grow, root, eat, stop,
-		<br><, >, <=, >=, ==, !=, (, ), {, }, ,, =, +, -, *, /,
-		<br>%,:
+		<br>\<\<\<, >>>, \<\<eq, >>eq, eqto, !!eq, !!!, &&&, |||, 
+		<br>(, ), {, }, ,, =, +, -, *, /, %, :
 	<br>}
 - R = [
 <br>\<program> --> tree{ \<stmt> }
@@ -46,7 +46,7 @@
 
 ]
 ## RegEx
-Identifier: ([a-z]_?){6,8}
+Identifier: ([a-z]_?)*{6,8}
 <br>Natural: [0-9]+
-<br>Real: [0-9]+\.[0-9]+
+<br>Real: [0-9]+(\.[0-9]+)?
 <br>Boolean: yes|no

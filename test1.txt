@@ -2,27 +2,27 @@ tree{
     twig elm = 7 leaf
     trunk oak leaf
     oak = 10 leaf
-    growfor( stick i = 0 , i < elm , i = i + 1 ) 
-	apple( i < 4 )
+    growfor( stick i = 0 , i < elm , i = i + 1 ) :
+	apple( i < 4 ) :
 		oak = oak - 1 leaf
 	eat
         oak = oak + 1 leaf 
     stop 
-    apple( oak > elm ) 
+    apple( oak > elm ) :
 	oak = elm + 2 leaf
     orange
 	elm = oak - 2 leaf
     eat
-	climb( oak )
+	climb( oak ) :
 		branch 12 :
 			twig spruce = 50 leaf
 		branch 14 :
 			seed spruce = 0 leaf
 	stop
-	grow( elm < spruce )
+	grow( elm < spruce ) :
 		elm = oak + 1 leaf
 	stop
-	root
+	root :
 		spruce = oak leaf
-	stop grow( oak < elm )
+	stop grow( oak < elm ) 
 }

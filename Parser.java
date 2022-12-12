@@ -22,7 +22,7 @@ public class Parser {
    private void nextToken() {
       index ++;
       if(index >= tokens.size()) {
-         throw new Error("Error: } expected to end program");
+         throw new Error("Error: } expected to end program " + index);
       }
    }
    
@@ -34,27 +34,10 @@ public class Parser {
          // Skipping a token here
          nextToken();
          statement();
-         nextToken();
          // If program ends with }
          if(tokens.get(index).getTokenCode() == 11) {
             return true;
          }
-      }
-      return false;
-   }
-   boolean typeCheck(Token val1, Token val2) {
-     switch(val2.getTokenCode()) {
-         case 3:
-            break;
-         case 4:
-         
-         case 5:
-         case 6:
-         case 7:
-         case 8:
-         default:
-            throw new Error("Error: Invalid type");
-
       }
       return false;
    }   
@@ -78,7 +61,7 @@ public class Parser {
             nextToken();
             // Throw error if no line delimiter
             if(tokens.get(index).getTokenCode() != 14) {
-               throw new Error("Syntax Error: Expected 'leaf'");
+               throw new Error("Syntax Error: Expected 'leaf' " + index);
             }   
          break;
                
@@ -110,10 +93,9 @@ public class Parser {
          // Assertion
          case 3:
             assertion();
-            nextToken();
             // Throw error if no line delimiter
             if(tokens.get(index).getTokenCode() != 14) {
-               throw new Error("Syntax Error: expected 'leaf'");
+               throw new Error("Syntax Error: expected 'leaf' " + index);
             }
             break;
             
@@ -125,29 +107,26 @@ public class Parser {
          case 32:
          case 34:
          case 37:
-            break;
+            return;
          
          default:
             // Initialize variable
             if(type()){
                var();
-               nextToken();
                // Throw error if no line delimiter
                if(tokens.get(index).getTokenCode() != 14) {
-                  throw new Error("Syntax Error: expected 'leaf'");
+                  throw new Error("Syntax Error: expected 'leaf' " + index);
                }
             } else if(index < tokens.size()-1) {
-               throw new Error("Syntax Error: invalid start to statement");
+               throw new Error("Syntax Error: invalid start to statement " + index);
             // Throw Error for unexpected end
             } else if(index >= tokens.size()-1) {
-               throw new Error("Syntax Error: Expected '}'");
+               throw new Error("Syntax Error: Expected '}' " + index);
             }
             break;   
       }
       // If program has no end bracket, call statement again
-      if(tokens.get(index + 1).getTokenCode() != 11) {
-         statement();
-      }
+      statement();
    }
    
    /* Grammar rule for function
@@ -158,14 +137,14 @@ public class Parser {
       // Throw error for no typing
       if(tokens.get(index).getTokenCode() < 20 ||
          tokens.get(index).getTokenCode() > 27) {
-         throw new Error("Syntax Error: Requires type");
+         throw new Error("Syntax Error: Requires type " + index);
       } else {
          nextToken();
          // Throw errors if no id followed by opening parentheses
          if(tokens.get(index).getTokenCode() != 3) {
-            throw new Error("Syntax Error: Expected function name");
+            throw new Error("Syntax Error: Expected function name " + index);
          } else if(tokens.get(index + 1).getTokenCode() != 12) {
-            throw new Error("Syntax Error: Expected '('");
+            throw new Error("Syntax Error: Expected '(' " + index);
          } else {
             // Skipping a token here
             nextToken();
@@ -173,9 +152,9 @@ public class Parser {
             nextToken();
             // Throw error if no closing parentheses followed by colon
             if(tokens.get(index).getTokenCode() != 12) {
-               throw new Error("Syntax Error: Expected ')'");
+               throw new Error("Syntax Error: Expected ')' " + index);
             } else if(tokens.get(index + 1).getTokenCode() != 15) {
-               throw new Error("Syntax Error: Expected ':'");
+               throw new Error("Syntax Error: Expected ':' " + index);
             } else {
                // Skipping a token here
                nextToken();
@@ -184,7 +163,7 @@ public class Parser {
                nextToken();
                // Throw error if no colon after function statements
                if(tokens.get(index).getTokenCode() != 15) {
-                  throw new Error("Syntax Error: Expected ':'");
+                  throw new Error("Syntax Error: Expected ':' " + index);
                }
             }
          }
@@ -197,12 +176,12 @@ public class Parser {
       nextToken();
       // Throw error for no typing
       if(!type()) {
-         throw new Error("Syntax Error: Requires type");
+         throw new Error("Syntax Error: Requires type " + index);
       } else {  
          nextToken();
          // Throw error if theres no identifier
          if(tokens.get(index).getTokenCode() != 3) {
-            throw new Error("Syntax Error: Expected identifier");
+            throw new Error("Syntax Error: Expected identifier " + index);
          } else {
             // Call param again if there is a comma
             if(tokens.get(index+1).getTokenCode() == 16) {
@@ -219,13 +198,13 @@ public class Parser {
       nextToken();
       // Throw error for no return keyword
       if(tokens.get(index).getTokenCode() != 9) {
-         throw new Error("Syntax Error: Expected 'give'");
+         throw new Error("Syntax Error: Expected 'give' " + index);
       } else {
          expr();
          nextToken();
          // Throw error for no line delimiter
          if(tokens.get(index).getTokenCode() != 14) {
-            throw new Error("Syntax Error: Expected 'leaf'");
+            throw new Error("Syntax Error: Expected 'leaf' " + index);
          } else {
             statement();
             // Call a new return statement if it exists
@@ -242,7 +221,7 @@ public class Parser {
       nextToken();
       // Throw error if there is no id
       if(tokens.get(index).getTokenCode() != 3) {
-         throw new Error("Syntax Error: No function called");
+         throw new Error("Syntax Error: No function called " + index);
       // Throw error if there is no opening parentheses
       } else if(tokens.get(index + 1).getTokenCode() != 12) {
          throw new Error("Syntax Error: Expected '('");
@@ -253,7 +232,7 @@ public class Parser {
          nextToken();
          // Throw error if no closing parentheses
          if(tokens.get(index).getTokenCode() != 13) {
-            throw new Error("Syntax Error: Expected ')'");
+            throw new Error("Syntax Error: Expected ')' " + index);
          } 
       }
    }
@@ -261,7 +240,7 @@ public class Parser {
     * <call2> --> <term><call2>|, <term><call2>|null
     */
     void call2() {
-      // Throw error if 
+      nextToken();
       term();
       nextToken();
       // Call term and again if there are more comma delimiters
@@ -277,41 +256,44 @@ public class Parser {
       nextToken();
       // Throw error if no opening parentheses
       if(tokens.get(index).getTokenCode() != 12) {
-         throw new Error("Syntax Error: expected '('");
+         throw new Error("Syntax Error: expected '(' " + index);
       } else {
          nextToken();
          // Throw error if there is no type
          if(tokens.get(index).getTokenCode() < 20 ||
             tokens.get(index).getTokenCode() > 27) {
-            throw new Error("Syntax Error: Requires tpying");   
+            throw new Error("Syntax Error: Requires tpying " + index);   
          } else {
             var();
-            nextToken();
             // Throw error if there is no comma
             if(tokens.get(index).getTokenCode() != 16) {
-               throw new Error("Syntax Error: Expected ','");
+               throw new Error("Syntax Error: Expected ',' " + index);
             } else {
                boolExpr();
-               nextToken();
                // Throw error if there is no second comma
                if(tokens.get(index).getTokenCode() != 16) {
-                  throw new Error("Syntax Error: Expected ','");
+                  throw new Error("Syntax Error: Expected ',' " + index);
                } else {
-                  expr();
-                  // Throw error if no closing parentheses
-                  if(tokens.get(index).getTokenCode() != 13) {
-                     throw new Error("Syntax Error: Expected ')'");
-                  // Throw error if there is no colon
-                  } else if(tokens.get(index + 1).getTokenCode() != 15) {
-                     throw new Error("Syntax Error: Expected ':'");
+                  nextToken();
+                  // Throw error if there is no identifier
+                  if(tokens.get(index).getTokenCode() != 3) {
+                     throw new Error("Syntax Error: Expected identifier " + index);
                   } else {
-                     // Skipping token here
-                     nextToken();
-                     statement();
-                     nextToken();
-                     // Throw error if no 'stop'
-                     if(tokens.get(index).getTokenCode() != 37) {
-                        throw new Error("Syntax Error: Expected 'stop'");
+                     assertion();
+                     // Throw error if no closing parentheses
+                     if(tokens.get(index).getTokenCode() != 13) {
+                        throw new Error("Syntax Error: Expected ')' " + index);
+                     // Throw error if there is no colon
+                     } else if(tokens.get(index + 1).getTokenCode() != 15) {
+                        throw new Error("Syntax Error: Expected ':' " + index);
+                     } else {
+                        // Skipping token here
+                        nextToken();
+                        statement();
+                        // Throw error if no 'stop'
+                        if(tokens.get(index).getTokenCode() != 37) {
+                           throw new Error("Syntax Error: Expected 'stop' " + index);
+                        }
                      }
                   }
                }
@@ -326,25 +308,22 @@ public class Parser {
       nextToken();
       // Throw error if no opening parentheses
       if(tokens.get(index).getTokenCode() != 12) {
-         throw new Error("Syntax Error: expected '('");
+         throw new Error("Syntax Error: expected '(' " + index);
       } else {
-         nextToken();
          boolExpr();
-         nextToken();
          // Throw error if no closing parentheses
          if(tokens.get(index).getTokenCode() != 13) {
-            throw new Error("Syntax Error: Expected ')'");
+            throw new Error("Syntax Error: Expected ')' " + index);
             // Throw error if there is no colon
          } else if(tokens.get(index + 1).getTokenCode() != 15) {
-            throw new Error("Syntax Error: Expected ':'");
+            throw new Error("Syntax Error: Expected ':' " + index);
          } else {
             // Skipping token here
             nextToken();
             statement();
-            nextToken();
             // Throw error if no 'stop'
             if(tokens.get(index).getTokenCode() != 37) {
-               throw new Error("Syntax Error: Expected 'stop'");
+               throw new Error("Syntax Error: Expected 'stop' " + index);
             }
          }
       }
@@ -356,23 +335,26 @@ public class Parser {
       nextToken();
       // Throw error if no colon
       if(tokens.get(index).getTokenCode() != 15) {
-         throw new Error("Syntax Error: expected ':'");
+         throw new Error("Syntax Error: expected ':' " + index);
       } else {
             statement();
-            nextToken();
             // Throw error if no 'stop'
             if(tokens.get(index).getTokenCode() != 37) {
-               throw new Error("Syntax Error: Expected 'stop'");
-            } else if(tokens.get(index + 1).getTokenCode() != 12) {
-               throw new Error("Syntax Error: expected '('");
+               throw new Error("Syntax Error: Expected 'stop' " + index);
+            // Throw error if no 'grow'
+            } else if(tokens.get(index + 1).getTokenCode() != 36) {
+               throw new Error("Syntax Error: expected 'grow' " + (index + 1));
+            // Throw error if no opening parentheses
+            } else if(tokens.get(index + 2).getTokenCode() != 12) {
+               throw new Error("Syntax Error: expected '(' " + (index + 2));
             } else {
-               // Skipping token here
+               // Skipping two tokens here
+               nextToken();
                nextToken();
                boolExpr();
-               nextToken();
                // Throw error if no closing parentheses
                if(tokens.get(index).getTokenCode() != 13) {
-                  throw new Error("Syntax Error: Expected ')'");
+                  throw new Error("Syntax Error: Expected ')' " + index);
                }
             }
          }
@@ -383,18 +365,30 @@ public class Parser {
     */
    void ifStatement() {
       nextToken();
-      // Throw error if no colon
-      if(tokens.get(index).getTokenCode() != 15) {
-         throw new Error("Syntax Error: expected ':'");
+       // Throw error if no open parentheses
+      if(tokens.get(index).getTokenCode() != 12) {
+         throw new Error("Syntax Error: expected '(' " + index);
       } else {
-         statement();
-         // Go to else statement if there is an else clause
-         if(tokens.get(index).getTokenCode() == 31) {
-            elseStatement();
-         }
-         // Throw error if no 'eat'
-         if(tokens.get(index).getTokenCode() != 32) {
-            throw new Error("Syntax Error: Expected 'eat'");
+         boolExpr();
+         // Throw error if no closing parentheses
+         if(tokens.get(index).getTokenCode() != 13) {
+            throw new Error("Syntax Error: expected ')' " + index);
+         } else {
+            nextToken();
+            // Throw error if no colon
+            if(tokens.get(index).getTokenCode() != 15) {
+               throw new Error("Syntax Error: expected ':' " + index);
+            } else {
+               statement();
+               // Go to else statement if there is an else clause
+               if(tokens.get(index).getTokenCode() == 31) {
+                  elseStatement();
+               }
+               // Throw error if no 'eat'
+               if(tokens.get(index).getTokenCode() != 32) {
+                  throw new Error("Syntax Error: Expected 'eat' " + index);
+               }
+            }
          }
       }
    }
@@ -405,7 +399,7 @@ public class Parser {
       nextToken();
       // Throw error if no colon
       if(tokens.get(index).getTokenCode() != 15) {
-         throw new Error("Syntax Error: expected ':'");
+         throw new Error("Syntax Error: expected ':' " + index);
       } else {
             statement();
       }
@@ -418,34 +412,34 @@ public class Parser {
       nextToken();
       // Throw error if no opening parentheses
       if(tokens.get(index).getTokenCode() != 12) {
-         throw new Error("Syntax Error: expected '('");
+         throw new Error("Syntax Error: expected '(' " + index);
       } else {
          nextToken();
          // Throw error if no id
          if(tokens.get(index).getTokenCode() != 3) {
-            throw new Error("Syntax Error: expected identifiers");
+            throw new Error("Syntax Error: expected identifiers " + index);
          } else {
             nextToken();
          }
       }
       // Throw error if no closing parentheses
       if(tokens.get(index).getTokenCode() != 13) {
-         throw new Error("Syntax Error: expected ')'");
+         throw new Error("Syntax Error: expected ')' " + index);
       } else if(tokens.get(index + 1).getTokenCode() != 15 ) {
-         throw new Error("Syntax Error: expected ':'");
+         throw new Error("Syntax Error: expected ':' " + index);
       } else {
          // Skipping two tokens here
          nextToken();
          nextToken();
          // Throw Error if no branch
-         if(tokens.get(index).getTokenCode() == 34) {
-            throw new Error("Syntax Error: Requires a case");
+         if(tokens.get(index).getTokenCode() != 34) {
+            throw new Error("Syntax Error: Requires a case " + index);
          } else {
             caseStatement();
          }
          // Throw error if no 'stop'
          if(tokens.get(index).getTokenCode() != 37) {
-            throw new Error("Syntax Error: Expected 'stop'");
+            throw new Error("Syntax Error: Expected 'stop' " + index);
          }
       }
    }
@@ -457,10 +451,10 @@ public class Parser {
       // Throw error for no evaluation value
       if(tokens.get(index).getTokenCode() < 4 ||
          tokens.get(index).getTokenCode() > 8) {   
-          throw new Error("Syntax Error: Expected a value");
+          throw new Error("Syntax Error: Expected a value " + index);
       // Throw error for no colon
       } else if(tokens.get(index+1).getTokenCode() != 15) {
-          throw new Error("Syntax Error: Expected ':'");
+          throw new Error("Syntax Error: Expected ':' " + index);
       } else {
          // Skipping a token here
          nextToken();
@@ -479,7 +473,7 @@ public class Parser {
       nextToken();
       // Throw error if no identifier
       if(tokens.get(index).getTokenCode() != 3) {
-         throw new Error("Syntax Error: Requires identifier");
+         throw new Error("Syntax Error: Requires identifier " + index);
       } else {
          declare();
       }
@@ -499,9 +493,8 @@ public class Parser {
     * <declare> --> = <expr>|null
     */
    void declare() {
-      if(tokens.get(index + 1).getTokenCode() == 56) {
-          // Skipping a token here
-          nextToken();
+      nextToken();
+      if(tokens.get(index).getTokenCode() == 56) {
           expr(); 
       }
    }
@@ -513,7 +506,7 @@ public class Parser {
       nextToken();
       // Throw error if no '='
       if(tokens.get(index).getTokenCode() != 56) {
-         throw new Error("Syntax Error: Expected '='");
+         throw new Error("Syntax Error: Expected '=' " + index);
       } else {
          expr();
       }
@@ -530,13 +523,11 @@ public class Parser {
          expr();
       } else {
          expr();
-         nextToken();
          // Throw error if there is no boolean operator
          if(!boolOp()) {
-            throw new Error("Syntax error: Expected operator");
+            throw new Error("Syntax error: Expected operator " + index);
          } else {
             expr();
-            nextToken();
          }
       }
    }
@@ -553,8 +544,8 @@ public class Parser {
     * <op> --> >>|>>>=|<<|<<<=|===|!!!=
     */
    boolean boolOp() {
-      if(tokens.get(index).getTokenCode() < 40 ||
-         tokens.get(index).getTokenCode() > 48) {
+      if(tokens.get(index).getTokenCode() >= 40 &&
+         tokens.get(index).getTokenCode() <= 48) {
          return true;
       }
       return false;
@@ -571,7 +562,7 @@ public class Parser {
          nextToken();
          // Throw error if there is no closing parentheses
          if(tokens.get(index).getTokenCode() != 13) {
-            throw new Error("Syntax Error: Expected ')'"); 
+            throw new Error("Syntax Error: Expected ')' " + index); 
          }
       } else {
          term();
@@ -600,20 +591,19 @@ public class Parser {
          case 54:
             expr();
             break;
-            
+         // Null  
          default:
-            throw new Error("Syntax Error: Invalid operator");
+            break;
       }
    }
    /* Grammar rule for term
     * <term> --> id|val|<call>
     */
    void term() {
-      nextToken();
       // Throw error if no identifier, value, or function call
       if(tokens.get(index).getTokenCode() < 2 ||
          tokens.get(index).getTokenCode() > 8) {
-         throw new Error("Syntax Error: Invalid term");
+         throw new Error("Syntax Error: Invalid term " + index);
       } 
    }
 }
