@@ -1,8 +1,8 @@
 /*
  * Zoe Boyle
  * Final -- Programming language concepts CSC 4330
- * 12/09/2022
- * Compiler Class
+ * 12/11/2022
+ * Parser Class
  */
 import java.util.ArrayList;
 

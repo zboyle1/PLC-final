@@ -1,7 +1,7 @@
 /*
  * Zoe Boyle
  * Final -- Programming language concepts CSC 4330
- * 12/09/2022
+ * 12/11/2022
  * Token Class
  */
  
