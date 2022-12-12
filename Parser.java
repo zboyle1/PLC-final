@@ -541,7 +541,7 @@ public class Parser {
       return false;
    }
    /* Grammar rule for boolean operator
-    * <op> --> >>|>>>=|<<|<<<=|===|!!!=
+    * <op> --> >>>|>>eq|<<<|<<eq|eqto|!!eq
     */
    boolean boolOp() {
       if(tokens.get(index).getTokenCode() >= 40 &&

@@ -37,7 +37,7 @@
 <br>\<assertion> --> id = \<expr>
 
 <br>\<boolexpr> --> \<expr> \<op> \<expr> | \<unary> \<expr>
-<br>\<op> --> >>|>>>=|<<|<<<=|===|!!!=
+<br>\<op> --> >>>|>>eq|\<\<\<|\<\<eq|eqto|!!eq
 <br>\<unary> --> !!!|null
 
 <br>\<expr> --> (\<expr>)|\<term>\<factor>
