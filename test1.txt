@@ -1,28 +1,28 @@
 tree{ 
-    twig elm = 7 leaf
-    trunk oak leaf
-    oak = 10 leaf
-    growfor( stick i = 0 , i < elm , i = i + 1 ) :
-	apple( i < 4 ) :
-		oak = oak - 1 leaf
+    twig elm_tree = 7 leaf
+    trunk oak_tree leaf
+    oak_tree = 10 leaf
+    growfor( stick index_ = 0 , index_ <<eq elm_tree , index_ = index_ + 1 ) :
+	apple( i <<< 4 ) :
+		oak_tree = oak_tree - 1 leaf
 	eat
-        oak = oak + 1 leaf 
+        oak_tree = oak_tree + 1 leaf 
     stop 
-    apple( oak > elm ) :
-	oak = elm + 2 leaf
-    orange
-	elm = oak - 2 leaf
+    apple( oak_tree >>> elm_tree ) :
+	oak_tree = elm_tree + 2 leaf
+    orange :
+	elm_tree = oak_tree - 2 leaf
     eat
-	climb( oak ) :
+	climb( oak_tree ) :
 		branch 12 :
 			twig spruce = 50 leaf
 		branch 14 :
-			seed spruce = 0 leaf
+			twig spruce = 0 leaf
 	stop
-	grow( elm < spruce ) :
-		elm = oak + 1 leaf
+	grow( elm_tree <<< spruce ) :
+		elm_tree = oak_tree + 1 leaf
 	stop
 	root :
-		spruce = oak leaf
-	stop grow( oak < elm ) 
+		spruce = oak_tree leaf
+	stop grow( oak_tree <<< elm_tree )
 }
